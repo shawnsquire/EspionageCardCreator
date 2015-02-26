@@ -1,0 +1,31 @@
+Type,Name,Description,Count,ID
+Agent,Assassin,Assassiante any agent,4,A1
+Agent,Demolitionist,Destroy any building,4,A2
+Agent,Inside Man,Discard a card from opponent's hand,,A3
+Agent,Hacker,Discard all utilities attached to a building or agent,,A4
+Agent,Recruiter,"Remove one agent from your field, and place an opponents agent in your field",,A5
+Agent,Decoy,"When one of your agents is assassinated, destroy this card instead",2,A6
+Agent,Theif,Steal a card from the opponent's hand and place it in your hand,,A7
+Building,Factory,Draw 1 additional card at the start of your turn,,B1
+Building,Decoy,"When one of your buildings is destroyed, destroy this card instead",2,B2
+Building,Safe House,You may return one agent to your hand at the end of your turn,,B3
+Building,Vault,You are immune to spying (players can not look in your hand),,B4
+Building,Hotel,You may have an extra agent in the field,,B5
+Espionage,Spy,Look into another player's hand,,E1
+Espionage,Bunker Bomb,Destroy a building,,E2
+Espionage,Generator,Draw 2 cards,2,E3
+Espionage,Rescue Mission,Return an agent to your hand,,E4
+Espionage,Steal,Steal a random card from an opponents hand,,E5
+Espionage,Search and Rescue,Go through the discard pile and return the first agent you find and put it in your hand,,E6
+Espionage,Rebuild,Go through the discard pile and return the first building you find and put it in your hand,,E7
+Espionage,Recruiting Mission,Take an opponent's agent from the field and put it in your hand,,E8
+Espionage,Planning,Draw the top 3 cards of the deck and keep one. Discard the others,,E9
+Sabotage,Counter-assassin,Block any assassination and discard the card played,,S1
+Sabotage,Protective Turret,Block any sabotage and discard the card played,,S2
+Sabotage,Destroy Foundation,Block any building from being played. Discard that building.,,S3
+Sabotage,Reinforced Steel,Prevent any building from being destroyed.,,S4
+Utility,Decoy Outfil,"When one of your agents is assassinated, assassinate this agent instead",,U1
+Utility,Kevlar,"If this agent is assassinated, remove this utility instead",,U2
+Utility,Caffeine,This agent may act twice per turn,,U3
+Utility,Building Addition,The effects of this building are doubled,,U4
+Utility,Reinforced Concrete,"If this building is destroyed, remove this utility instead",,U5
