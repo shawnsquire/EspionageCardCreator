@@ -84,10 +84,16 @@ def combine_images(cards):
     return file_name
 
 def upload(file):
-    with open(IMGUR_FILE, 'r') as imgur_key:
-        id,secret = next(imgur_key).split(':')
-        client = ImgurClient(id, secret)
-        return client.upload_from_path(file)
+    try:
+        with open(IMGUR_FILE, 'r') as imgur_key:
+            id,secret = next(imgur_key).split(':')
+            client = ImgurClient(id, secret)
+            return client.upload_from_path(file)
+    except FileNotFoundError:
+        print("ERROR: Missing %s" % IMGUR_FILE)
+        print("Make sure this file is present and contains the Imgur key.")
+        print("Proper syntax is one line with \"CLIENT_ID:CLIENT_SYNTAX\" (sans quotes)")
+        return None
 
 def main():
     with open(CARDS_LIST, 'r') as cardscsv:
@@ -95,7 +101,11 @@ def main():
         next(cardlist) # Skip header row
         cards = [createCard(Card(c[4], name=c[1], type=c[0], description=c[2], count=c[3] if len(c[3]) > 0 else 1)) for c in cardlist]
         imgur = upload(combine_images(cards))
-        print("Uploaded %d cards to Imgur: %s" % (len(cards), imgur['link']))
+        if imgur != None:
+            print("Uploaded %d cards to Imgur: %s" % (len(cards), imgur['link']))
+        else:
+            print("Generated %d cards, but did not upload" % len(cards))
+
 
 if __name__ == '__main__':
     main()
