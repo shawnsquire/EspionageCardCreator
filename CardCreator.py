@@ -40,7 +40,7 @@ class Card:
         self.description = description
         self.count = int(count)
 
-def createCard(c):
+def displayCard(c):
     if len(c.type) > 0:
         print("Type: %s" % c.type)
     if len(c.name) > 0:
@@ -49,6 +49,8 @@ def createCard(c):
         print("Description: %s" % c.description)
     print()
 
+
+def createCard(c):
     file = open("%s/%s.jpg" % (OUTPUT_FODLER, c.code), 'w+')
     img = Image.new('RGB', CARD_SIZE, (255,255,255))
     d = ImageDraw.Draw(img)
@@ -77,6 +79,12 @@ def createCard(c):
     return img
 
 def combine_images(cards):
+    max_cards = SPRITE_ROWS * SPRITE_COLS - 1
+    if(len(cards) > max_cards):
+        print("Found %d cards. Truncating to %d" % (len(cards), max_cards))
+        cards = cards[:max_cards]
+        # TODO: Make multiple sprite sheets if this is the case
+
     file_name = "%s/sprite.jpg" % (OUTPUT_FODLER)
     file = open(file_name, 'w+')
     img = Image.new('RGB', (CARD_SIZE[0] * SPRITE_COLS,
