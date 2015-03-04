@@ -40,6 +40,11 @@ def chunks(l, n):
     n = max(1, n)
     return [l[i:i + n] for i in range(0, len(l), n)]
 
+class Sprite:
+    def __init__(self, image, count=0):
+        self.image = image
+        self.count = count
+
 class Card:
     def __init__(self, code, name='', type='', description='', count=1):
         self.code = code
@@ -112,8 +117,8 @@ def combine_images(cards):
         print("Found %d cards. Splitting into %d decks" % (len(cards), deck_count))
 
     for i,deck in enumerate(list(chunks(cards, max_cards))):
-        file_name = "%s/sprite-%d.jpg" % (OUTPUT_FODLER, i)
-        file = open(file_name, 'w+')
+        sprite = Sprite("%s/sprite-%d.jpg" % (OUTPUT_FODLER, i), len(deck))
+        file = open(sprite.image, 'w+')
         img = Image.new('RGB', (CARD_SIZE[0] * SPRITE_COLS,
                         CARD_SIZE[1] * SPRITE_ROWS), (0,0,0))
         x = y = 0
@@ -128,7 +133,7 @@ def combine_images(cards):
         img.paste(createHiddenCard(),
                 (CARD_SIZE[0] * (SPRITE_COLS - 1), CARD_SIZE[1] * (SPRITE_ROWS - 1)))
         img.save(file, "JPEG", quality=95)
-        sprites.append(file_name)
+        sprites.append(sprite)
     return sprites
 
 def upload(file):
@@ -153,9 +158,9 @@ def main():
         sprites = combine_images(cards)
         print("Finished processing %d unique cards across %d decks" % (len(cards), len(sprites)))
         for i,sprite in enumerate(sprites):
-            imgur = upload(sprite)
+            imgur = upload(sprite.image)
             if imgur != None:
-                print("Uploaded deck %d: %s" % (i+1, imgur['link']))
+                print("Uploaded deck %d with %d cards: %s" % (i+1, sprite.count, imgur['link']))
 
 
 if __name__ == '__main__':
