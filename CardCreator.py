@@ -2,6 +2,7 @@ import math
 
 __author__ = 'Shawn Squire'
 import csv
+from itertools import repeat
 from PIL import Image, ImageDraw, ImageFont
 from imgurpython import ImgurClient
 import textwrap
@@ -22,7 +23,8 @@ CARD_COLORS = {
     'Building' : (100, 255, 100),
     'Espionage' : (255, 255, 100),
     'Sabotage': (255, 100, 100),
-    'Utility': (100, 255, 255)
+    'Utility': (100, 255, 255),
+    'Hidden': (120, 120, 120)
 }
 
 SPRITE_COLS = 10
@@ -32,6 +34,12 @@ OUTPUT_FODLER = 'output'
 CARDS_LIST = 'cards.csv'
 IMGUR_FILE = 'imgur_key.txt'
 
+def chunks(l, n):
+    """ Yield successive n-sized chunks from l
+    """
+    n = max(1, n)
+    return [l[i:i + n] for i in range(0, len(l), n)]
+
 class Card:
     def __init__(self, code, name='', type='', description='', count=1):
         self.code = code
@@ -39,6 +47,7 @@ class Card:
         self.type = type
         self.description = description
         self.count = int(count)
+        self.image = None
 
 def displayCard(c):
     if len(c.type) > 0:
@@ -75,30 +84,52 @@ def createCard(c):
     d.text((CARD_SIZE[0] - CARD_MARGIN - code_width, 330),
            c.code, font=CARD_FONTS['code'], fill=(0,0,0))
 
+    c.image = img
     img.save(file, "JPEG", quality=95)
+    return c
+
+def createHiddenCard():
+    img = Image.new('RGB', CARD_SIZE, (255,255,255))
+    d = ImageDraw.Draw(img)
+    d.rectangle(((0,0), (CARD_SIZE[0], CARD_HEADER_HEIGHT)),
+            fill=CARD_COLORS["Hidden"])
+    d.text((CARD_MARGIN, CARD_MARGIN), 'Hidden', font=CARD_FONTS['type'],
+            fill=(0,0,0))
+    title_height = CARD_FONTS['name'].getsize('Hidden')[1]
+    d.text((CARD_MARGIN, CARD_HEADER_HEIGHT - title_height - CARD_MARGIN),
+           'Hidden Card', font=CARD_FONTS['name'], fill=(0,0,0))
+    d.text((CARD_MARGIN, CARD_HEADER_HEIGHT + CARD_MARGIN),
+            "This card is hidden", font = CARD_FONTS['description'],
+            fill=(0,0,0))
     return img
 
 def combine_images(cards):
+    cards = [c for card in cards for c in repeat(card, card.count)]
     max_cards = SPRITE_ROWS * SPRITE_COLS - 1
+    sprites = []
     if(len(cards) > max_cards):
-        print("Found %d cards. Truncating to %d" % (len(cards), max_cards))
-        cards = cards[:max_cards]
-        # TODO: Make multiple sprite sheets if this is the case
+        deck_count = math.ceil(len(cards) / max_cards)
+        print("Found %d cards. Splitting into %d decks" % (len(cards), deck_count))
 
-    file_name = "%s/sprite.jpg" % (OUTPUT_FODLER)
-    file = open(file_name, 'w+')
-    img = Image.new('RGB', (CARD_SIZE[0] * SPRITE_COLS,
-                    CARD_SIZE[1] * SPRITE_ROWS), (0,0,0))
-    x = y = 0
-    for c in cards:
-        img.paste(c, (x, y))
-        if x + CARD_SIZE[0] >= CARD_SIZE[0] * SPRITE_COLS:
-            x = 0
-            y = y + CARD_SIZE[1]
-        else:
-            x = x + CARD_SIZE[0]
-    img.save(file, "JPEG", quality=95)
-    return file_name
+    for i,deck in enumerate(list(chunks(cards, max_cards))):
+        file_name = "%s/sprite-%d.jpg" % (OUTPUT_FODLER, i)
+        file = open(file_name, 'w+')
+        img = Image.new('RGB', (CARD_SIZE[0] * SPRITE_COLS,
+                        CARD_SIZE[1] * SPRITE_ROWS), (0,0,0))
+        x = y = 0
+        for card in deck:
+            img.paste(card.image, (x, y))
+            if x + CARD_SIZE[0] >= CARD_SIZE[0] * SPRITE_COLS:
+                x = 0
+                y = y + CARD_SIZE[1]
+            else:
+                x = x + CARD_SIZE[0]
+
+        img.paste(createHiddenCard(),
+                (CARD_SIZE[0] * (SPRITE_COLS - 1), CARD_SIZE[1] * (SPRITE_ROWS - 1)))
+        img.save(file, "JPEG", quality=95)
+        sprites.append(file_name)
+    return sprites
 
 def upload(file):
     try:
@@ -117,13 +148,14 @@ def main():
         cardlist = csv.reader(cardscsv, delimiter=',', quotechar='"')
         next(cardlist) # Skip header row
         cards = [createCard(Card(c[4], name=c[1], type=c[0],
-                        description=c[2], count=c[3] if len(c[3]) > 0 else 1))
+                        description=c[2], count=c[3] if int(c[3]) > 0 else 1))
                 for c in cardlist]
-        imgur = upload(combine_images(cards))
-        if imgur != None:
-            print("Uploaded %d cards: %s" % (len(cards), imgur['link']))
-        else:
-            print("Generated %d cards, but did not upload" % len(cards))
+        sprites = combine_images(cards)
+        print("Finished processing %d unique cards across %d decks" % (len(cards), len(sprites)))
+        for i,sprite in enumerate(sprites):
+            imgur = upload(sprite)
+            if imgur != None:
+                print("Uploaded deck %d: %s" % (i+1, imgur['link']))
 
 
 if __name__ == '__main__':

@@ -1,31 +1,46 @@
 Type,Name,Description,Count,ID
-Agent,Assassin,Assassiante any agent,4,A1
-Agent,Demolitionist,Destroy any building,4,A2
-Agent,Inside Man,Discard a card from opponent's hand,,A3
-Agent,Hacker,Discard all utilities attached to a building or agent,,A4
-Agent,Recruiter,"Remove one agent from your field, and place an opponents agent in your field",,A5
-Agent,Decoy,"When one of your agents is assassinated, destroy this card instead",2,A6
-Agent,Theif,Steal a card from the opponent's hand and place it in your hand,,A7
-Building,Factory,Draw 1 additional card at the start of your turn,,B1
-Building,Decoy,"When one of your buildings is destroyed, destroy this card instead",2,B2
-Building,Safe House,You may return one agent to your hand at the end of your turn,,B3
-Building,Vault,You are immune to spying (players can not look in your hand),,B4
-Building,Hotel,You may have an extra agent in the field,,B5
-Espionage,Spy,Look into another player's hand,,E1
-Espionage,Bunker Bomb,Destroy a building,,E2
+Agent,Assassin,Assassiante any agent,3,A1
+Agent,Demolitionist,Destroy any building,3,A2
+Agent,Inside Man,Discard a card from opponent's hand,3,A3
+Agent,Hacker,Discard all utilities attached to a building or agent,3,A4
+Agent,Recruiter,"Remove one agent from your field, and place an opponents agent in your field",3,A5
+Agent,Decoy,"When one of your agents is assassinated, destroy this card instead",3,A6
+Agent,Theif,Steal a card from the opponent's hand and place it in your hand,3,A7
+Agent,Spy,Spy into another player's hand,3,A8
+Agent,Ambassador,(No effect),8,A9
+Building,Factory,Draw 1 additional card at the start of your turn,5,B1
+Building,Decoy,"When one of your buildings is destroyed, destroy this card instead",3,B2
+Building,Safe House,You may return one agent to your hand at the end of your turn,3,B3
+Building,Scrambler,You are immune to spying (players can not look in your hand),4,B4
+Building,Spy Facility,"Once per round, you may look at a random card in another player's hand",3,B5
+Building,Training Facility,Double the effect of any played assassin,3,B6
+Espionage,Spy,Look into another player's hand,4,E1
 Espionage,Generator,Draw 2 cards,2,E3
-Espionage,Rescue Mission,Return an agent to your hand,,E4
-Espionage,Steal,Steal a random card from an opponents hand,,E5
-Espionage,Search and Rescue,Go through the discard pile and return the first agent you find and put it in your hand,,E6
-Espionage,Rebuild,Go through the discard pile and return the first building you find and put it in your hand,,E7
-Espionage,Recruiting Mission,Take an opponent's agent from the field and put it in your hand,,E8
-Espionage,Planning,Draw the top 3 cards of the deck and keep one. Discard the others,,E9
-Sabotage,Counter-assassin,Block any assassination and discard the card played,,S1
-Sabotage,Protective Turret,Block any sabotage and discard the card played,,S2
-Sabotage,Destroy Foundation,Block any building from being played. Discard that building.,,S3
-Sabotage,Reinforced Steel,Prevent any building from being destroyed.,,S4
-Utility,Decoy Outfil,"When one of your agents is assassinated, assassinate this agent instead",,U1
-Utility,Kevlar,"If this agent is assassinated, remove this utility instead",,U2
-Utility,Caffeine,This agent may act twice per turn,,U3
-Utility,Building Addition,The effects of this building are doubled,,U4
-Utility,Reinforced Concrete,"If this building is destroyed, remove this utility instead",,U5
+Espionage,Rescue Mission,Return an agent to your hand,3,E4
+Espionage,Steal,Steal a random card from an opponents hand,3,E5
+Espionage,Search and Rescue,Go through the discard pile and return the first agent you find and put it in your hand,3,E6
+Espionage,Rebuild,Go through the discard pile and return the first building you find and put it in your hand,3,E7
+Espionage,Recruiting Mission,Take an opponent's agent from the field and put it in your hand,2,E8
+Espionage,Planning,Draw the top 3 cards of the deck and keep one. Discard the others,3,E9
+Espionage,Peace Treaty,All players must discard any Sabotage cards,1,E10
+Espionage,Propoganda,Pick a player. That player must give you two cards of their choice.,3,E11
+Espionage,Secret Trading,Discard any number of cards. Draw that many cards from the decks,2,E12
+Espionage,Blackout,All players must discard any Espionage cards,1,E13
+Sabotage,Counter-assassin,Block any assassination and discard the card played,3,S1
+Sabotage,Protective Turret,Block any sabotage and discard the card played,3,S2
+Sabotage,Destroy Foundation,Block any building from being played. Discard that building.,3,S3
+Sabotage,Reinforced Steel,Prevent any building from being destroyed.,3,S4
+Sabotage,Bunker Bomb,Destroy a building,3,S5
+Sabotage,Starvation,A player must discard their played agents down to the number of constructed buildings,2,S6
+Sabotage,Injure,Force an agent back into a player's hand,3,S7
+Sabotage,Stolen Secrets,Reverse any Sabotage card played against you,2,S8
+Sabotage,UN Intervention,Force a player with more cards in their hand to discard down to the number of cards in your hand,2,S9
+Sabotage,Dismantle,Force a player to discard all Sabotage cards,3,S10
+Sabotage,Counter-Intelligence,Redirect the effect of an Espionage card to any player,2,S11
+Sabotage,Iron Curtain,You are immune to any negative effects for one round,1,S12
+Utility,Decoy Outfil,"When one of your agents is assassinated, assassinate this agent instead",3,U1
+Utility,Kevlar,"If this agent is assassinated, remove this utility instead",3,U2
+Utility,Building Addition,The effects of this building are doubled,3,U4
+Utility,Reinforced Concrete,"If this building is destroyed, remove this utility instead",3,U5
+Utility,Spy Training,This agent is worth another influence roll,3,U6
+Utility,Publishing,This building acts as an agent when rolling for influence,3,U7
