@@ -74,18 +74,21 @@ def createCard(c):
             fill=CARD_COLORS[c.type])
     d.text((CARD_MARGIN, CARD_MARGIN), c.type, font=CARD_FONTS['type'],
             fill=(0,0,0))
-    title_height = CARD_FONTS['name'].getsize(c.name)[1]
+    bbox = CARD_FONTS['name'].getbbox(c.name)
+    title_height = bbox[3] - bbox[1]
     d.text((CARD_MARGIN, CARD_HEADER_HEIGHT - title_height - CARD_MARGIN),
            c.name, font=CARD_FONTS['name'], fill=(0,0,0))
 
     lines = textwrap.wrap(c.description, width = 23) # 23 arbitrarily derived
     y_text = CARD_HEADER_HEIGHT + CARD_MARGIN
     for line in lines:
-        width, height = CARD_FONTS['description'].getsize(line)
+        bbox = CARD_FONTS['description'].getbbox(line)
+        width, height = (bbox[2] - bbox[0], bbox[3] - bbox[1])
         d.text((CARD_MARGIN, y_text), line, font = CARD_FONTS['description'],
                 fill=(0,0,0))
         y_text += 30 # Predetermined given size of text
-    code_width = CARD_FONTS['code'].getsize(c.code)[0]
+    bbox = CARD_FONTS['code'].getbbox(c.code)
+    code_width = bbox[2] - bbox[0]
     d.text((CARD_SIZE[0] - CARD_MARGIN - code_width, 330),
            c.code, font=CARD_FONTS['code'], fill=(0,0,0))
 
@@ -100,7 +103,8 @@ def createHiddenCard():
             fill=CARD_COLORS["Hidden"])
     d.text((CARD_MARGIN, CARD_MARGIN), 'Hidden', font=CARD_FONTS['type'],
             fill=(0,0,0))
-    title_height = CARD_FONTS['name'].getsize('Hidden')[1]
+    bbox = CARD_FONTS['name'].getbbox('Hidden')
+    title_height = bbox[3] - bbox[1]
     d.text((CARD_MARGIN, CARD_HEADER_HEIGHT - title_height - CARD_MARGIN),
            'Hidden Card', font=CARD_FONTS['name'], fill=(0,0,0))
     d.text((CARD_MARGIN, CARD_HEADER_HEIGHT + CARD_MARGIN),
